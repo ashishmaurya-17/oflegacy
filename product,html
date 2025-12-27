@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - oflegacy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="announcement-bar">
+        Limited Stock Available - Free Shipping Today!
+    </div>
+
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:black;">oflegacy</a></div>
+        <div><a href="index.html">🔙 Back to Store</a></div>
+    </header>
+
+    <div class="product-container">
+        
+        <div class="product-image">
+            <img id="p-img" src="" alt="Toy Image">
+        </div>
+
+        <div class="product-details">
+            <div class="vendor">MECHANICAL SERIES</div>
+            <h1 id="p-name">Loading Product...</h1>
+            
+            <div class="price-area">
+                <span class="original-price" id="p-old-price">Rs. 0</span>
+                <span class="sale-price" id="p-price">Rs. 0</span>
+                <span class="save-badge">SAVE 60%</span>
+            </div>
+
+            <div class="stock-count">🔥 Only <span id="stock-num">5</span> units left!</div>
+
+            <button class="buy-btn" onclick="buyNow()">BUY NOW - CASH ON DELIVERY</button>
+
+            <div class="features">
+                <h3>Mechanical Features:</h3>
+                <ul>
+                    <li>⚙️ <strong>Fully Functional:</strong> Working gears and pistons.</li>
+                    <li>🔧 <strong>DIY Assembly:</strong> Comes with tools.</li>
+                    <li>💎 <strong>Material:</strong> High-grade Metal & Alloy.</li>
+                    <li>🚚 <strong>Fast Delivery:</strong> Ships within 24 hours.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
