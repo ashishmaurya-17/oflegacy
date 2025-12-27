@@ -2,12 +2,12 @@
 // 1. PRODUCT DATABASE & CONFIGURATION
 // =========================================
 const products = [
-    { id: 1, name: "Mechanical RC Racing Bike V1", price: 1299, oldPrice: 3999, image: "assets/toy1.jpg" },
-    { id: 2, name: "V8 Engine Assembly Model Car", price: 2499, oldPrice: 5999, image: "assets/toy2.jpg" },
-    { id: 3, name: "Hydraulic Heavy Excavator", price: 1899, oldPrice: 4500, image: "assets/toy3.jpg" },
-    { id: 4, name: "Mechanical Gearbox Kit", price: 899, oldPrice: 2200, image: "assets/toy4.jpg" },
-    { id: 5, name: "Steampunk Metal Spider", price: 1599, oldPrice: 3200, image: "assets/toy5.jpg" },
-    { id: 6, name: "AI Mechanical Robot Dog", price: 2100, oldPrice: 5500, image: "assets/toy6.jpg" }
+    { id: 1, name: "Mechanical RC Racing Bike V1", price: 01, oldPrice: 3999, image: "assets/toy1.jpg" },
+    { id: 2, name: "V8 Engine Assembly Model Car", price: 001, oldPrice: 5999, image: "assets/toy2.jpg" },
+    { id: 3, name: "Hydraulic Heavy Excavator", price: 1, oldPrice: 4500, image: "assets/toy3.jpg" },
+    { id: 4, name: "Mechanical Gearbox Kit", price: 0.5, oldPrice: 2200, image: "assets/toy4.jpg" },
+    { id: 5, name: "Steampunk Metal Spider", price: 0.001, oldPrice: 3200, image: "assets/toy5.jpg" },
+    { id: 6, name: "AI Mechanical Robot Dog", price: 0.33558, oldPrice: 5500, image: "assets/toy6.jpg" }
 ];
 
 // Razorpay Test Keys
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
     updateCartCount();
     
-    // Initialize Forms using your custom logic
+    // Initialize Forms
     attachFormLogic('newsletter-form');          // Home Page Newsletter
     attachFormLogic('contact-form');             // Home Page Contact
     attachFormLogic('newsletter-form-product');  // Product Page Newsletter
@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =========================================
-// 3. YOUR CUSTOM FORM LOGIC (Web3Forms)
+// 3. FORM LOGIC (Web3Forms with Sending State)
 // =========================================
 function attachFormLogic(formId) {
     const form = document.getElementById(formId);
-    if (!form) return; // Agar form page par nahi hai to skip karo
+    if (!form) return; 
 
     const submitBtn = form.querySelector('button[type="submit"]');
 
@@ -52,12 +52,11 @@ function attachFormLogic(formId) {
         e.preventDefault();
 
         const formData = new FormData(form);
-        // Access Key append kar rahe hain
         formData.append("access_key", WEB3FORMS_ACCESS_KEY);
 
         const originalText = submitBtn.textContent;
 
-        // Button state change (User Feedback)
+        // Button feedback
         submitBtn.textContent = "Sending...";
         submitBtn.disabled = true;
 
@@ -80,7 +79,6 @@ function attachFormLogic(formId) {
             console.error(error);
             alert("Something went wrong. Please try again.");
         } finally {
-            // Button restore logic
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }
@@ -89,18 +87,29 @@ function attachFormLogic(formId) {
 
 
 // =========================================
-// 4. RAZORPAY PAYMENT INTEGRATION
+// 4. RAZORPAY PAYMENT (With Animation Loader)
 // =========================================
 function initiatePayment(amount, description, isCartCheckout = false) {
+    // 1. Show Loader Animation
+    const loader = document.getElementById('checkout-loader');
+    if(loader) loader.style.display = 'flex';
+
     var options = {
         "key": RAZORPAY_KEY_ID, 
-        "amount": amount * 100, // Paise conversion
+        "amount": amount * 100, 
         "currency": "INR",
         "name": "OfLegacy Store",
         "description": description,
         "image": "assets/logo.png",
+        "modal": {
+            "ondismiss": function(){
+                // Hide loader if user closes popup
+                if(loader) loader.style.display = 'none';
+            }
+        },
         "handler": function (response){
-            // Payment Success Handler
+            // Success Logic
+            if(loader) loader.style.display = 'none';
             alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
             
             if(isCartCheckout) {
@@ -110,21 +119,19 @@ function initiatePayment(amount, description, isCartCheckout = false) {
                 toggleCart();
             }
         },
-        "prefill": {
-            "name": "", // Auto-fill ke liye chhod diya
-            "email": "",
-            "contact": ""
-        },
-        "theme": {
-            "color": "#000000"
-        }
+        "prefill": { "name": "", "email": "", "contact": "" },
+        "theme": { "color": "#000000" }
     };
     
-    var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-        alert("Payment Failed: " + response.error.description);
-    });
-    rzp1.open();
+    // 2. Wait 1.5 seconds (Animation feel) then Open Razorpay
+    setTimeout(() => {
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+            if(loader) loader.style.display = 'none';
+            alert("Payment Failed: " + response.error.description);
+        });
+        rzp1.open();
+    }, 1500);
 }
 
 
@@ -153,10 +160,9 @@ function checkoutCart() {
 
 
 // =========================================
-// 6. STANDARD SHOP FUNCTIONS (Cart, Search, etc.)
+// 6. STANDARD SHOP FUNCTIONS (Cart, Search, Grid)
 // =========================================
 
-// Load Products to Grid
 function loadProducts() {
     const list = document.getElementById('product-list');
     if(list) {
@@ -172,7 +178,6 @@ function loadProducts() {
     }
 }
 
-// Cart Logic (Local Storage)
 function getCart() { return JSON.parse(localStorage.getItem('oflegacy_cart')) || []; }
 function saveCart(cart) { localStorage.setItem('oflegacy_cart', JSON.stringify(cart)); updateCartCount(); }
 
@@ -245,30 +250,34 @@ if(sInput) {
     });
 }
 
-// Product Page Details Loader
+// =========================================
+// 7. PRODUCT PAGE DETAILS & BUTTON FIX
+// =========================================
 const pid = new URLSearchParams(window.location.search).get('id');
 if(pid) {
     const p = products.find(x => x.id == pid);
     if(p) {
+        // Fill Details
         if(document.getElementById('p-img')) document.getElementById('p-img').src = p.image;
         if(document.getElementById('p-name')) document.getElementById('p-name').innerText = p.name;
         if(document.getElementById('p-price')) document.getElementById('p-price').innerText = "Rs. " + p.price;
-        if(document.getElementById('p-old-price')) document.getElementById('p-old-price').innerText = "Rs. " + p.oldPrice;
+        if(document.getElementById('p-old-price')) document.getElementById('p-old-price').innerHTML = `<del>Rs. ${p.oldPrice}</del>`;
         
-        // Inject Buttons
+        // BUTTON FIX LOGIC
         const buyBtn = document.querySelector('.buy-btn');
         if(buyBtn) {
+            // 1. Style the Buy Now Button (Black)
+            buyBtn.innerText = "BUY IT NOW";
+            buyBtn.classList.add('btn-primary'); // CSS class handles style now
             buyBtn.onclick = buyNow;
             
-            // Add Cart Button dynamically below Buy Now
+            // 2. Create Add to Cart Button (White)
             const cartBtn = document.createElement('button');
             cartBtn.innerText = "ADD TO CART";
-            cartBtn.className = "buy-btn";
-            cartBtn.style.background = "white"; 
-            cartBtn.style.color = "black"; 
-            cartBtn.style.border = "1px solid black"; 
-            cartBtn.style.marginTop = "10px";
+            cartBtn.className = "buy-btn btn-secondary"; // CSS class handles style now
             cartBtn.onclick = addToCart;
+            
+            // 3. Insert cleanly below
             buyBtn.parentNode.insertBefore(cartBtn, buyBtn.nextSibling);
         }
     }
