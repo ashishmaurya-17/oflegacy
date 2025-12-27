@@ -6,6 +6,7 @@
     <title>OfLegacy | Premium Mechanical Models</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
@@ -16,11 +17,9 @@
     <header class="site-header">
         <div class="header-wrapper">
             <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
-
             <div class="logo">
                 <a href="index.html">OFLEGACY<span class="dot">.</span></a>
             </div>
-
             <nav class="desktop-nav">
                 <ul>
                     <li><a href="#" class="active">Home</a></li>
@@ -29,10 +28,8 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-
             <div class="header-icons">
-                <a href="#"><i class="fas fa-search"></i></a>
-                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#" onclick="openSearch(event)"><i class="fas fa-search"></i></a>
                 <div class="cart-icon">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
@@ -50,27 +47,11 @@
         </div>
     </section>
 
-    <section class="trust-badges">
-        <div class="badge-item">
-            <i class="fas fa-truck-fast"></i>
-            <h3>Fast Delivery</h3>
-            <p>Ships within 24 Hours</p>
-        </div>
-        <div class="badge-item">
-            <i class="fas fa-shield-halved"></i>
-            <h3>Premium Warranty</h3>
-            <p>1 Year Protection</p>
-        </div>
-        <div class="badge-item">
-            <i class="fas fa-screwdriver-wrench"></i>
-            <h3>DIY Kits</h3>
-            <p>Tools Included</p>
-        </div>
-        <div class="badge-item">
-            <i class="fas fa-undo"></i>
-            <h3>Easy Returns</h3>
-            <p>7-Day Policy</p>
-        </div>
+    <section class="trust-badges" id="features">
+        <div class="badge-item"><i class="fas fa-truck-fast"></i><h3>Fast Delivery</h3><p>Ships within 24 Hours</p></div>
+        <div class="badge-item"><i class="fas fa-shield-halved"></i><h3>Premium Warranty</h3><p>1 Year Protection</p></div>
+        <div class="badge-item"><i class="fas fa-screwdriver-wrench"></i><h3>DIY Kits</h3><p>Tools Included</p></div>
+        <div class="badge-item"><i class="fas fa-undo"></i><h3>Easy Returns</h3><p>7-Day Policy</p></div>
     </section>
 
     <section id="collection" class="collection-section">
@@ -78,7 +59,6 @@
             <h2>FEATURED MODELS</h2>
             <p>Top rated mechanical kits chosen by engineers.</p>
         </div>
-        
         <div class="product-grid" id="product-list">
             <p style="text-align:center; width:100%;">Loading Masterpieces...</p>
         </div>
@@ -87,9 +67,10 @@
     <section class="newsletter-section">
         <div class="newsletter-content">
             <h2>JOIN THE CLUB</h2>
-            <p>Get exclusive access to new drops and 10% off your first order.</p>
-            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed!');">
-                <input type="email" placeholder="Enter your email address" required>
+            <p>Get exclusive access to new drops.</p>
+            <form id="newsletter-form" class="newsletter-form">
+                <input type="hidden" name="access_key" value="7dc0699b-84d6-4067-9f3e-676ef999740b">
+                <input type="email" name="email" placeholder="Enter your email address" required>
                 <button type="submit">SUBSCRIBE</button>
             </form>
         </div>
@@ -99,7 +80,7 @@
         <div class="contact-wrapper">
             <div class="contact-info">
                 <h2>GET IN TOUCH</h2>
-                <p>Have a question about assembly or shipping? We are here to help.</p>
+                <p>Have a question? We are here to help.</p>
                 <ul class="contact-list">
                     <li><i class="fas fa-envelope"></i> support@oflegacy.in</li>
                     <li><i class="fas fa-phone"></i> +91 99999 99999</li>
@@ -107,11 +88,12 @@
                 </ul>
             </div>
             <div class="contact-form-container">
-                <form>
-                    <input type="text" placeholder="Your Name">
-                    <input type="email" placeholder="Your Email">
-                    <textarea placeholder="Your Message" rows="4"></textarea>
-                    <button type="button" class="cta-btn black-btn">SEND MESSAGE</button>
+                <form id="contact-form">
+                    <input type="hidden" name="access_key" value="7dc0699b-84d6-4067-9f3e-676ef999740b">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                    <button type="submit" class="cta-btn black-btn">SEND MESSAGE</button>
                 </form>
             </div>
         </div>
@@ -130,32 +112,34 @@
             </div>
             <div class="footer-col">
                 <h4>SHOP</h4>
-                <ul>
-                    <li><a href="#">All Models</a></li>
-                    <li><a href="#">New Arrivals</a></li>
-                    <li><a href="#">Accessories</a></li>
-                    <li><a href="#">Gift Cards</a></li>
-                </ul>
+                <ul><li><a href="#">All Models</a></li><li><a href="#">New Arrivals</a></li></ul>
             </div>
             <div class="footer-col">
                 <h4>SUPPORT</h4>
-                <ul>
-                    <li><a href="#">Track Order</a></li>
-                    <li><a href="#">Assembly Guides</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Returns & Refunds</a></li>
-                </ul>
+                <ul><li><a href="#">Track Order</a></li><li><a href="#">Shipping Policy</a></li></ul>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2025 OfLegacy. All rights reserved.</p>
-            <div class="payment-methods">
-                <i class="fab fa-cc-visa"></i>
-                <i class="fab fa-cc-mastercard"></i>
-                <i class="fab fa-google-pay"></i>
-                <i class="fas fa-wallet"></i> </div>
         </div>
     </footer>
+
+    <div id="search-overlay" class="search-overlay">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search models...">
+            <button onclick="closeSearch()">X</button>
+        </div>
+        <div id="search-results"></div>
+    </div>
+
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-header"><h2>Your Cart</h2><span onclick="toggleCart()">X</span></div>
+        <div id="cart-items">Your cart is empty.</div>
+        <div class="cart-footer">
+            <h3>Total: <span id="cart-total">Rs. 0</span></h3>
+            <button onclick="checkoutCart()" class="cta-btn black-btn">SECURE CHECKOUT</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
