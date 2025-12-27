@@ -1,4 +1,6 @@
-// 1. PRODUCT DATABASE
+// =========================================
+// 1. PRODUCT DATABASE & CONFIGURATION
+// =========================================
 const products = [
     { id: 1, name: "Mechanical RC Racing Bike V1", price: 1299, oldPrice: 3999, image: "assets/toy1.jpg" },
     { id: 2, name: "V8 Engine Assembly Model Car", price: 2499, oldPrice: 5999, image: "assets/toy2.jpg" },
@@ -8,74 +10,97 @@ const products = [
     { id: 6, name: "AI Mechanical Robot Dog", price: 2100, oldPrice: 5500, image: "assets/toy6.jpg" }
 ];
 
-// 2. INITIALIZATION
+// Razorpay Test Keys
+const RAZORPAY_KEY_ID = "rzp_test_RwX8zJuRVHIA4h"; 
+
+// Web3Forms Access Key
+const WEB3FORMS_ACCESS_KEY = "7dc0699b-84d6-4067-9f3e-676ef999740b";
+
+
+// =========================================
+// 2. PAGE INITIALIZATION
+// =========================================
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
     updateCartCount();
-    setupForms(); // Naya function forms handle karne ke liye
+    
+    // Initialize Forms using your custom logic
+    attachFormLogic('newsletter-form');          // Home Page Newsletter
+    attachFormLogic('contact-form');             // Home Page Contact
+    attachFormLogic('newsletter-form-product');  // Product Page Newsletter
 
-    // Listeners
-    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-        document.querySelector('.desktop-nav').classList.toggle('active');
-    });
+    // Mobile Menu Toggle
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    if(menuBtn) {
+        menuBtn.addEventListener('click', () => {
+            document.querySelector('.desktop-nav').classList.toggle('active');
+        });
+    }
 });
 
-// 3. WEB3FORMS HANDLING (Tumhara Logic - Updated for multiple forms)
-function setupForms() {
-    // Array of form IDs to attach the listener to
-    const forms = ['newsletter-form', 'contact-form'];
 
-    forms.forEach(formId => {
-        const form = document.getElementById(formId);
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
+// =========================================
+// 3. YOUR CUSTOM FORM LOGIC (Web3Forms)
+// =========================================
+function attachFormLogic(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return; // Agar form page par nahi hai to skip karo
 
-                submitBtn.textContent = "Sending...";
-                submitBtn.disabled = true;
+    const submitBtn = form.querySelector('button[type="submit"]');
 
-                const formData = new FormData(form);
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-                try {
-                    const response = await fetch("https://api.web3forms.com/submit", {
-                        method: "POST",
-                        body: formData
-                    });
+        const formData = new FormData(form);
+        // Access Key append kar rahe hain
+        formData.append("access_key", WEB3FORMS_ACCESS_KEY);
 
-                    const data = await response.json();
+        const originalText = submitBtn.textContent;
 
-                    if (response.ok) {
-                        alert("Success! Your message has been sent.");
-                        form.reset();
-                    } else {
-                        alert("Error: " + data.message);
-                    }
-                } catch (error) {
-                    alert("Something went wrong. Please try again.");
-                } finally {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }
+        // Button state change (User Feedback)
+        submitBtn.textContent = "Sending...";
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
             });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Success! Your message has been sent.");
+                form.reset();
+            } else {
+                alert("Error: " + data.message);
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            // Button restore logic
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
         }
     });
 }
 
-// 4. RAZORPAY PAYMENT INTEGRATION
-const RAZORPAY_KEY_ID = "rzp_test_RwX8zJuRVHIA4h"; // Tumhara Test Key
 
+// =========================================
+// 4. RAZORPAY PAYMENT INTEGRATION
+// =========================================
 function initiatePayment(amount, description, isCartCheckout = false) {
     var options = {
         "key": RAZORPAY_KEY_ID, 
-        "amount": amount * 100, // Razorpay paise mein leta hai (1 Rupee = 100 Paise)
+        "amount": amount * 100, // Paise conversion
         "currency": "INR",
         "name": "OfLegacy Store",
         "description": description,
-        "image": "assets/logo.png", // Ensure logo exists or remove this line
+        "image": "assets/logo.png",
         "handler": function (response){
-            // Success Callback
+            // Payment Success Handler
             alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
             
             if(isCartCheckout) {
@@ -86,12 +111,12 @@ function initiatePayment(amount, description, isCartCheckout = false) {
             }
         },
         "prefill": {
-            "name": "",
+            "name": "", // Auto-fill ke liye chhod diya
             "email": "",
             "contact": ""
         },
         "theme": {
-            "color": "#000000" // Black theme match karne ke liye
+            "color": "#000000"
         }
     };
     
@@ -102,9 +127,11 @@ function initiatePayment(amount, description, isCartCheckout = false) {
     rzp1.open();
 }
 
-// 5. BUY NOW & CART CHECKOUT LOGIC
+
+// =========================================
+// 5. BUY & CHECKOUT FUNCTIONS
+// =========================================
 function buyNow() {
-    // Single Product Buy
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
     const product = products.find(p => p.id == productId);
@@ -115,7 +142,6 @@ function buyNow() {
 }
 
 function checkoutCart() {
-    // Cart Checkout
     const cart = getCart();
     if(cart.length === 0) return alert("Cart is empty!");
 
@@ -125,7 +151,12 @@ function checkoutCart() {
     initiatePayment(total, `Bulk Order (${cart.length} items)`, true);
 }
 
-// 6. STANDARD SHOP FUNCTIONS (Cart, Search, Load)
+
+// =========================================
+// 6. STANDARD SHOP FUNCTIONS (Cart, Search, etc.)
+// =========================================
+
+// Load Products to Grid
 function loadProducts() {
     const list = document.getElementById('product-list');
     if(list) {
@@ -141,6 +172,7 @@ function loadProducts() {
     }
 }
 
+// Cart Logic (Local Storage)
 function getCart() { return JSON.parse(localStorage.getItem('oflegacy_cart')) || []; }
 function saveCart(cart) { localStorage.setItem('oflegacy_cart', JSON.stringify(cart)); updateCartCount(); }
 
@@ -173,7 +205,7 @@ function renderCart() {
     let total = 0;
     
     if(cart.length === 0) {
-        container.innerHTML = "Your cart is empty.";
+        container.innerHTML = "<p>Your cart is empty.</p>";
         document.getElementById('cart-total').innerText = "Rs. 0";
     } else {
         container.innerHTML = cart.map((item, index) => {
@@ -194,9 +226,13 @@ function removeFromCart(index) {
     renderCart();
 }
 
-// Search
-function openSearch(e) { e.preventDefault(); document.getElementById('search-overlay').style.display = 'flex'; }
+// Search Logic
+function openSearch(e) { 
+    if(e) e.preventDefault(); 
+    document.getElementById('search-overlay').style.display = 'flex'; 
+}
 function closeSearch() { document.getElementById('search-overlay').style.display = 'none'; }
+
 const sInput = document.getElementById('search-input');
 if(sInput) {
     sInput.addEventListener('keyup', (e) => {
@@ -209,7 +245,7 @@ if(sInput) {
     });
 }
 
-// Product Page Loader
+// Product Page Details Loader
 const pid = new URLSearchParams(window.location.search).get('id');
 if(pid) {
     const p = products.find(x => x.id == pid);
@@ -223,11 +259,15 @@ if(pid) {
         const buyBtn = document.querySelector('.buy-btn');
         if(buyBtn) {
             buyBtn.onclick = buyNow;
-            // Add Cart Button dynamically
+            
+            // Add Cart Button dynamically below Buy Now
             const cartBtn = document.createElement('button');
             cartBtn.innerText = "ADD TO CART";
             cartBtn.className = "buy-btn";
-            cartBtn.style.background = "white"; cartBtn.style.color = "black"; cartBtn.style.border = "1px solid black"; cartBtn.style.marginTop = "10px";
+            cartBtn.style.background = "white"; 
+            cartBtn.style.color = "black"; 
+            cartBtn.style.border = "1px solid black"; 
+            cartBtn.style.marginTop = "10px";
             cartBtn.onclick = addToCart;
             buyBtn.parentNode.insertBefore(cartBtn, buyBtn.nextSibling);
         }
