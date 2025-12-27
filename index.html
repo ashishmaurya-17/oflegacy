@@ -3,29 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>oflegacy - Mechanical Masterpieces</title>
+    <title>OfLegacy | Premium Mechanical Models</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo">oflegacy</div>
-        <div class="cart-icon">🛒</div>
+    <div class="announcement-bar">
+        <p>🎉 FREE WORLDWIDE SHIPPING ON ORDERS OVER Rs. 1499 | LIMITED TIME</p>
+    </div>
+
+    <header class="site-header">
+        <div class="header-wrapper">
+            <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+
+            <div class="logo">
+                <a href="index.html">OFLEGACY<span class="dot">.</span></a>
+            </div>
+
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#collection">Collection</a></li>
+                    <li><a href="#features">Why Us?</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-icons">
+                <a href="#"><i class="fas fa-search"></i></a>
+                <a href="#"><i class="fas fa-user"></i></a>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <div class="hero">
-        <h1>Engineering in Your Hands</h1>
-        <p>Premium Functional Mechanical Models</p>
-    </div>
+    <section class="hero-section">
+        <div class="hero-content">
+            <span class="subtitle">ENGINEERING MEETS ART</span>
+            <h1>BUILD YOUR LEGACY</h1>
+            <p>Experience the thrill of assembling premium mechanical masterpieces. Fully functional. All metal.</p>
+            <a href="#collection" class="cta-btn">SHOP COLLECTION</a>
+        </div>
+    </section>
 
-    <div class="container">
-        <h2>Our Collection</h2>
+    <section class="trust-badges">
+        <div class="badge-item">
+            <i class="fas fa-truck-fast"></i>
+            <h3>Fast Delivery</h3>
+            <p>Ships within 24 Hours</p>
+        </div>
+        <div class="badge-item">
+            <i class="fas fa-shield-halved"></i>
+            <h3>Premium Warranty</h3>
+            <p>1 Year Protection</p>
+        </div>
+        <div class="badge-item">
+            <i class="fas fa-screwdriver-wrench"></i>
+            <h3>DIY Kits</h3>
+            <p>Tools Included</p>
+        </div>
+        <div class="badge-item">
+            <i class="fas fa-undo"></i>
+            <h3>Easy Returns</h3>
+            <p>7-Day Policy</p>
+        </div>
+    </section>
+
+    <section id="collection" class="collection-section">
+        <div class="section-header">
+            <h2>FEATURED MODELS</h2>
+            <p>Top rated mechanical kits chosen by engineers.</p>
+        </div>
+        
         <div class="product-grid" id="product-list">
-            </div>
-    </div>
+            <p style="text-align:center; width:100%;">Loading Masterpieces...</p>
+        </div>
+    </section>
 
-    <footer>
-        <p>© 2025 oflegacy. Built for Engineers.</p>
+    <section class="newsletter-section">
+        <div class="newsletter-content">
+            <h2>JOIN THE CLUB</h2>
+            <p>Get exclusive access to new drops and 10% off your first order.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed!');">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">SUBSCRIBE</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h2>GET IN TOUCH</h2>
+                <p>Have a question about assembly or shipping? We are here to help.</p>
+                <ul class="contact-list">
+                    <li><i class="fas fa-envelope"></i> support@oflegacy.in</li>
+                    <li><i class="fas fa-phone"></i> +91 99999 99999</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Bettiah, Bihar, India</li>
+                </ul>
+            </div>
+            <div class="contact-form-container">
+                <form>
+                    <input type="text" placeholder="Your Name">
+                    <input type="email" placeholder="Your Email">
+                    <textarea placeholder="Your Message" rows="4"></textarea>
+                    <button type="button" class="cta-btn black-btn">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">OFLEGACY.</div>
+                <p>Premium mechanical toys designed for the modern engineer. Build, Play, Collect.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>SHOP</h4>
+                <ul>
+                    <li><a href="#">All Models</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>SUPPORT</h4>
+                <ul>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Assembly Guides</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 OfLegacy. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-google-pay"></i>
+                <i class="fas fa-wallet"></i> </div>
+        </div>
     </footer>
 
     <script src="script.js"></script>
