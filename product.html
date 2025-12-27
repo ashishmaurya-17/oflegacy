@@ -24,7 +24,6 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="index.html#collection">Collection</a></li>
-                    <li><a href="index.html#features">Why Us?</a></li>
                     <li><a href="index.html#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -96,14 +95,27 @@
             <div class="footer-col">
                 <div class="footer-logo">OFLEGACY.</div>
                 <p>Premium mechanical toys designed for the modern engineer. Build, Play, Collect.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
             </div>
             <div class="footer-col">
-                <h4>SHOP</h4>
-                <ul><li><a href="index.html">All Models</a></li></ul>
+                <h4>POLICIES</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="refund.html">Refund & Returns</a></li>
+                    <li><a href="shipping.html">Shipping Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
             </div>
             <div class="footer-col">
                 <h4>SUPPORT</h4>
-                <ul><li><a href="#">Track Order</a></li><li><a href="#">Shipping Policy</a></li></ul>
+                <ul>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                    <li><a href="#">Track Order</a></li>
+                </ul>
             </div>
         </div>
         <div class="footer-bottom">
@@ -124,16 +136,15 @@
         <div id="cart-items">Your cart is empty.</div>
         <div class="cart-footer">
             <h3>Total: <span id="cart-total">Rs. 0</span></h3>
-            <button onclick="checkoutCart()" class="cta-btn black-btn">SECURE CHECKOUT</button>
+            <button onclick="checkoutCart()" class="black-btn">SECURE CHECKOUT</button>
         </div>
     </div>
-    <div id="checkout-loader">
-    <div class="spinner"></div>
-    <h3>Securing Connection...</h3>
-    <p>Preparing Razorpay Secure Payment</p>
-</div>
 
-<script src="script.js"></script>
+    <div id="checkout-loader">
+        <div class="spinner"></div>
+        <h3>Securing Connection...</h3>
+        <p>Preparing Razorpay Secure Payment</p>
+    </div>
 
     <script src="script.js"></script>
 </body>
